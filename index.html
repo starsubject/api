@@ -7,21 +7,21 @@
 </head>
 <body>
     <h1>WebJar Local Resolver</h1>
-    <p>Click the button below to enable <code>webjar://</code> protocol.</p>
+    <p>Click the button below to enable <code>web+webjar://</code> protocol.</p>
     <button onclick="registerProtocol()">Enable WebJar</button>
     <p id="status"></p>
-    <p>After enabling, try clicking this test link: <a href="webjar://about.fn">webjar://about.fn</a></p>
+    <p>After enabling, try clicking this test link: <a href="web+webjar://about.fn">web+webjar://about.fn</a></p>
 
     <div id="content"></div>
 
     <script>
         function registerProtocol() {
             navigator.registerProtocolHandler(
-                "webjar",
+                "web+webjar",  // ✅ Fix: Prefixed with web+
                 window.location.href + "?domain=%s",
                 "WebJar Local Resolver"
             );
-            document.getElementById("status").innerText = "WebJar protocol registered! Try webjar:// links.";
+            document.getElementById("status").innerText = "WebJar protocol registered! Try web+webjar:// links.";
         }
 
         function resolveWebJar() {
