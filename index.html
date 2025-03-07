@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebJar Local Resolver</title>
+</head>
+<body>
+    <h1>WebJar Local Resolver</h1>
+    <p>Click the button below to enable <code>webjar://</code> protocol.</p>
+    <button onclick="registerProtocol()">Enable WebJar</button>
+    <p id="status"></p>
+    <p>After enabling, try clicking this test link: <a href="webjar://about.fn">webjar://about.fn</a></p>
+
+    <div id="content"></div>
+
+    <script>
+        function registerProtocol() {
+            navigator.registerProtocolHandler(
+                "webjar",
+                window.location.href + "?domain=%s",
+                "WebJar Local Resolver"
+            );
+            document.getElementById("status").innerText = "WebJar protocol registered! Try webjar:// links.";
+        }
+
+        function resolveWebJar() {
+            const params = new URLSearchParams(window.location.search);
+            const domain = params.get("domain");
+
+            if (domain === "about.fn") {
+                // Serve local content
+                document.body.innerHTML = `
+                    <h1>This is the first file on webjar://</h1>
+                    <p>Provided and managed by JAN</p>
+                    <p>Mar 6 2025</p>
+                `;
+            }
+        }
+
+        resolveWebJar();
+    </script>
+</body>
+</html>
