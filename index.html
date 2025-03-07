@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebJar Local Resolver</title>
+    <title>WebJar Local Resolver (Debug Mode)</title>
 </head>
 <body>
-    <h1>WebJar Local Resolver</h1>
+    <h1>WebJar Local Resolver (Debug Mode)</h1>
     <p>Click the button below to enable <code>web+webjar://</code> protocol.</p>
     <button onclick="registerProtocol()">Enable WebJar</button>
     <p id="status"></p>
     <p>After enabling, try clicking this test link: <a href="web+webjar://about.fn">web+webjar://about.fn</a></p>
+
+    <h2>Debug Info:</h2>
+    <p><strong>Domain Variable:</strong> <span id="debug"></span></p>
 
     <div id="content"></div>
 
     <script>
         function registerProtocol() {
             navigator.registerProtocolHandler(
-                "web+webjar",  // ✅ Fix: Prefixed with web+
+                "web+webjar",  
                 window.location.href + "?domain=%s",
                 "WebJar Local Resolver"
             );
@@ -27,6 +30,9 @@
         function resolveWebJar() {
             const params = new URLSearchParams(window.location.search);
             const domain = params.get("domain");
+
+            // Debug output
+            document.getElementById("debug").textContent = domain; // Show the domain variable
 
             if (domain === "about.fn") {
                 // Serve local content
